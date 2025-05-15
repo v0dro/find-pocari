@@ -14,7 +14,11 @@ soup = BeautifulSoup(response.text, "html.parser")
 
 product_price = soup.find(class_="p-item_priceNum").text.strip()
 product_name = soup.find(class_="p-item_name s-biggerlinkHover_underline").text.strip()
-
+seller = soup.find(class_="p-resultItem_quote").text.strip()
 # Print the product name and price
 print(f"Product Name: {product_name}")
 print(f"Product Price: {product_price}")
+print(f"Seller: {seller}")
+
+with open("kakaku_prices.txt", "a") as f:
+    f.write(f"{product_name},{product_price},{seller}\n")

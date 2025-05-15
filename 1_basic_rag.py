@@ -31,4 +31,5 @@ def add_to_chroma(texts: list[str]):
     
     return vectorstore
 
-add_to_chroma(["This is a test", "This is another test"])
+v = add_to_chroma(["This is a test", "This is another test"])
+print(v)
