@@ -4,7 +4,8 @@
 # Return the answer to the user.
 
 # This one runs locally. Other functions are in the cloud and can cost money.
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Chroma
 
 def get_embedding_function():
     # Converting the text to embeddings helps the model understand the meaning of the text
@@ -20,10 +21,14 @@ def get_embedding_function():
 
     return hf
 
-# Now you want to take data and create a vector store from the embeddings.
-from langchain.vectorstores.chroma import Chroma
 def add_to_chroma(texts: list[str]):
     # Create a Chroma vector store
-    vectorstore = Chroma.from_texts(texts, embedding_function=get_embedding_function())
+    embedding_function = get_embedding_function()
+    print(embedding_function)
+    vectorstore = Chroma.from_texts(
+        texts, 
+        embedding_function)
     
     return vectorstore
+
+add_to_chroma(["This is a test", "This is another test"])

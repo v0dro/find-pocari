@@ -1,4 +1,6 @@
 chromadb
 langchain
+langchain-community
+langchain-huggingface
 ollama
 sentence_transformers
