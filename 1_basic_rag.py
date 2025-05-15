@@ -3,3 +3,4 @@
 # Find the price from amazon for a product of that name using the RAG database.
 # Return the answer to the user.
 
+from lanchain_community.embeddings.bedrock import BedrockEmbeddings
