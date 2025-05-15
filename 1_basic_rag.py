@@ -3,4 +3,27 @@
 # Find the price from amazon for a product of that name using the RAG database.
 # Return the answer to the user.
 
-from lanchain_community.embeddings.bedrock import BedrockEmbeddings
+# This one runs locally. Other functions are in the cloud and can cost money.
+from langchain.embeddings import HuggingFaceEmbeddings
+
+def get_embedding_function():
+    # Converting the text to embeddings helps the model understand the meaning of the text
+    # using a measure of simiarity between the target and evaluation text using cosine similarity.
+    model_name = "sentence-transformers/all-mpnet-base-v2"
+    model_kwargs = {'device': 'cpu'}
+    encode_kwargs = {'normalize_embeddings': False}
+    hf = HuggingFaceEmbeddings(
+        model_name=model_name,
+        model_kwargs=model_kwargs,
+        encode_kwargs=encode_kwargs
+    )
+
+    return hf
+
+# Now you want to take data and create a vector store from the embeddings.
+from langchain.vectorstores.chroma import Chroma
+def add_to_chroma(texts: list[str]):
+    # Create a Chroma vector store
+    vectorstore = Chroma.from_texts(texts, embedding_function=get_embedding_function())
+    
+    return vectorstore
