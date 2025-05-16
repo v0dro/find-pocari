@@ -50,5 +50,5 @@ prompt = PromptTemplate(
 document_chain = create_stuff_documents_chain(llm, prompt)
 retriever_chain = create_retrieval_chain(retriever, document_chain)
 
-out = retriever_chain.invoke({"input" : "What is pocari sweat?"})
-print(out)
+out = retriever_chain.invoke({"input" : "What is Pocari Sweat and what is the price online?"})
+print(out['answer'])
