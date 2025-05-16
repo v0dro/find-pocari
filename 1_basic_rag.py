@@ -22,15 +22,19 @@ def get_embedding_function():
 
     return hf
 
-def add_to_chroma(texts: list[str]):
+def add_to_chroma(docs: list[Document]):
     # Create a Chroma vector store
     embedding_function = get_embedding_function()
     print(embedding_function)
-    vectorstore = Chroma.from_texts(
-        texts, 
+    vectorstore = Chroma.from_documents(
+        docs, 
         embedding_function)
     
     return vectorstore
 
-v = add_to_chroma(["This is a test", "This is another test"])
+v = add_to_chroma(
+    [
+        Document(page_content=open("kakaku_prices.md").read(), metadata={"source": "kakuku_data"})
+    ]
+)
 print(v)
