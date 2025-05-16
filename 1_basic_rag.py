@@ -6,6 +6,7 @@
 # This one runs locally. Other functions are in the cloud and can cost money.
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
+from langchain_core.documents import Document
 
 def get_embedding_function():
     # Converting the text to embeddings helps the model understand the meaning of the text

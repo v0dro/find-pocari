@@ -3,6 +3,12 @@
 
 import requests
 from bs4 import BeautifulSoup
+from py_markdown_table.markdown_table import markdown_table
+
+def translate_to_english(text):
+    # Placeholder function for translation
+    # In a real scenario, you would use a translation API or library
+    return text
 
 custom_headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
@@ -20,5 +26,16 @@ print(f"Product Name: {product_name}")
 print(f"Product Price: {product_price}")
 print(f"Seller: {seller}")
 
+data = [
+    {
+        "Product Name (JP)": product_name,
+        "Product Name (EN)": translate_to_english(product_name),
+        "Price": product_price,
+        "Seller": seller
+    }
+]
+
+markdown = markdown_table(data).get_markdown()
+
 with open("kakaku_prices.txt", "a") as f:
-    f.write(f"{product_name},{product_price},{seller}\n")
+    f.write(markdown)
