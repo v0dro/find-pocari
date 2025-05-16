@@ -3,12 +3,13 @@
 
 import requests
 from bs4 import BeautifulSoup
+from deep_translator import GoogleTranslator
 from py_markdown_table.markdown_table import markdown_table
 
-def translate_to_english(text):
+def translate_to_english(translator, text):
     # Placeholder function for translation
     # In a real scenario, you would use a translation API or library
-    return text
+    return translator.translate(text)
 
 custom_headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
@@ -17,6 +18,7 @@ custom_headers = {
 target_url = "https://search.kakaku.com/%E3%83%9D%E3%82%AB%E3%83%AA%E3%82%B9%E3%82%A8%E3%83%83%E3%83%88/"
 response = requests.get(target_url, headers=custom_headers)
 soup = BeautifulSoup(response.text, "html.parser")
+translator = GoogleTranslator(source='ja', target='en')
 
 product_price = soup.find(class_="p-item_priceNum").text.strip()
 product_name = soup.find(class_="p-item_name s-biggerlinkHover_underline").text.strip()
@@ -29,7 +31,7 @@ print(f"Seller: {seller}")
 data = [
     {
         "Product Name (JP)": product_name,
-        "Product Name (EN)": translate_to_english(product_name),
+        "Product Name (EN)": translate_to_english(translator, product_name),
         "Price": product_price,
         "Seller": seller
     }
@@ -37,5 +39,5 @@ data = [
 
 markdown = markdown_table(data).get_markdown()
 
-with open("kakaku_prices.txt", "a") as f:
+with open("kakaku_prices.md", "a") as f:
     f.write(markdown)

@@ -5,3 +5,4 @@ langchain-huggingface
 ollama
 sentence_transformers
 py-markdown-table
+deep-translator
