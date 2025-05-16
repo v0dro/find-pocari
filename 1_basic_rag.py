@@ -7,6 +7,10 @@
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
+from langchain_core.prompts import PromptTemplate
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains import create_retrieval_chain
+from langchain_ollama import OllamaLLM
 
 def get_embedding_function():
     # Converting the text to embeddings helps the model understand the meaning of the text
@@ -25,16 +29,26 @@ def get_embedding_function():
 def add_to_chroma(docs: list[Document]):
     # Create a Chroma vector store
     embedding_function = get_embedding_function()
-    print(embedding_function)
     vectorstore = Chroma.from_documents(
         docs, 
         embedding_function)
     
     return vectorstore
 
-v = add_to_chroma(
+vector_store = add_to_chroma(
     [
-        Document(page_content=open("kakaku_prices.md").read(), metadata={"source": "kakuku_data"})
+        Document(page_content=open("kakaku_prices.md").read(), metadata={"source": "kakaku_data"})
     ]
 )
-print(v)
+retriever = vector_store.as_retriever()
+llm = OllamaLLM(model="llama3.2")
+prompt = PromptTemplate(
+    template="You are an assistant in a store. Give more details about the product and tell its price from the provided documents.\n\nContext: {context}\n\nQuestion: {input}\n\nAnswer:",
+    input_variables=["context", "input"]
+)
+
+document_chain = create_stuff_documents_chain(llm, prompt)
+retriever_chain = create_retrieval_chain(retriever, document_chain)
+
+out = retriever_chain.invoke({"input" : "What is pocari sweat?"})
+print(out)

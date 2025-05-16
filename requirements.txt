@@ -2,6 +2,7 @@ chromadb
 langchain
 langchain-community
 langchain-huggingface
+langchain-ollama
 ollama
 sentence_transformers
 py-markdown-table
