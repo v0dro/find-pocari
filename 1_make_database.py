@@ -45,5 +45,5 @@ data = [
 
 markdown = markdown_table(data).get_markdown()
 
-with open("kakaku_prices.md", "w") as f:
+with open("pocari_details.md", "w") as f:
     f.write(markdown)

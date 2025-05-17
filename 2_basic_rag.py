@@ -37,7 +37,7 @@ def add_to_chroma(docs: list[Document]):
 
 vector_store = add_to_chroma(
     [
-        Document(page_content=open("kakaku_prices.md").read(), metadata={"source": "kakaku_data"})
+        Document(page_content=open("pocari_details.md").read(), metadata={"source": "kakaku_data"})
     ]
 )
 retriever = vector_store.as_retriever()
